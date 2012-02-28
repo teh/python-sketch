@@ -19,8 +19,10 @@ cdef class Sketch:
     cdef readonly np.ndarray seeds
     cdef readonly int num_buckets
     cdef readonly int num_hash
+
     cdef np.uint32_t* direct_data
     cdef np.uint32_t* direct_seeds
+    cdef uint32_t uint32_max
 
     def __cinit__(self, int num_hash, int num_buckets):
         assert bin(num_buckets).count('1') == 1, "num_buckets needs to be a power of 2"
@@ -31,6 +33,7 @@ cdef class Sketch:
         self.data = np.zeros((num_hash, num_buckets), dtype=np.uint32)
         ii = np.iinfo(np.uint32)
         self.seeds = np.random.randint(ii.min, ii.max, num_hash)
+        self.uint32_max = ii.max
 
         assert self.data.flags['C_CONTIGUOUS'], "Invalid data format."
         self.direct_data = <np.uint32_t*>self.data.data
@@ -49,3 +52,20 @@ cdef class Sketch:
             pc = pc & self.bitmask
             
             self.direct_data[i * self.num_buckets + pc] += value
+
+    def count_min(self, char* key):
+        cdef int i
+        cdef uint32_t pc
+        cdef uint32_t pb
+        cdef uint32_t minimum = self.uint32_max
+        for i in range(self.num_hash):
+            pc = self.direct_seeds[i]
+            pb = self.direct_seeds[i]
+            c_hashlittle2(<void*>key, len(key), &pc, &pb)
+            pc = pc & self.bitmask
+            
+            if self.direct_data[i * self.num_buckets + pc] < minimum:
+                minimum = self.direct_data[i * self.num_buckets + pc]
+
+        return minimum
+        

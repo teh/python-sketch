@@ -1,0 +1,22 @@
+# Python library build sketches
+
+This was inspired by a blog post from Akihiro Matsukawa [1]. Sketches are useful for heavy hitter detection, but they have a few other nice properties as well.
+
+# Example
+
+    from _sketch import Sketch
+
+    # First argument is the number of hashes.The second argument is
+    # the number of buckets and needs to be a power of two.
+    sketch = Sketch(4, 16)
+    print sketch.data
+
+    for word in 'Look at mee! Dr Zoidberg, homeowner!'.split():
+        sketch.update(word, 1)
+
+    print sketch.data
+
+[1]
+http://amatsukawa.posterous.com/heavy-hitter-detection
+
+

@@ -2,3 +2,10 @@
 *pyc
 build
 sketch/sketch.c
+debian/files
+debian/python-sketch.debhelper.log
+debian/python-sketch.postinst.debhelper
+debian/python-sketch.prerm.debhelper
+debian/python-sketch.substvars
+debian/python-sketch/
+sketch.egg-info/

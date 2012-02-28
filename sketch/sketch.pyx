@@ -44,6 +44,8 @@ cdef class Sketch:
         cdef int i
         cdef uint32_t pc
         cdef uint32_t pb
+        cdef uint32_t minimum = self.uint32_max
+
         for i in range(self.num_hash):
             pc = self.direct_seeds[i]
             pb = self.direct_seeds[i]
@@ -52,20 +54,7 @@ cdef class Sketch:
             pc = pc & self.bitmask
             
             self.direct_data[i * self.num_buckets + pc] += value
-
-    def count_min(self, char* key):
-        cdef int i
-        cdef uint32_t pc
-        cdef uint32_t pb
-        cdef uint32_t minimum = self.uint32_max
-        for i in range(self.num_hash):
-            pc = self.direct_seeds[i]
-            pb = self.direct_seeds[i]
-            c_hashlittle2(<void*>key, len(key), &pc, &pb)
-            pc = pc & self.bitmask
-            
             if self.direct_data[i * self.num_buckets + pc] < minimum:
                 minimum = self.direct_data[i * self.num_buckets + pc]
-
         return minimum
         

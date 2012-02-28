@@ -1,6 +1,6 @@
 # Python library build sketches
 
-This was inspired by a blog post from Akihiro Matsukawa [1]. Sketches are useful for heavy hitter detection, but they have a few other nice properties as well. It uses Bob Jenkins lookup3 hash function [2] which is very good for this type of application.
+This was inspired by a blog post from Akihiro Matsukawa [1]. Sketches are useful for heavy hitter detection amongst other things. The implementation uses Bob Jenkins lookup3 hash function [2] which is very good for this type of application.
 
 # Example
 

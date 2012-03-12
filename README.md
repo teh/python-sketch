@@ -4,17 +4,19 @@ This was inspired by a blog post from Akihiro Matsukawa [1]. Sketches are useful
 
 # Example
 
-    from _sketch import Sketch
+```python
+from _sketch import Sketch
 
-    # First argument is the number of hashes.The second argument is
-    # the number of buckets and needs to be a power of two.
-    sketch = Sketch(4, 16)
-    print sketch.data
+# First argument is the number of hashes.The second argument is
+# the number of buckets and needs to be a power of two.
+sketch = Sketch(4, 16)
+print sketch.data
 
-    for word in 'Look at mee! Dr Zoidberg, homeowner!'.split():
-        sketch.update(word, 1)
+for word in 'Look at mee! Dr Zoidberg, homeowner!'.split():
+    sketch.update(word, 1)
 
-    print sketch.data
+print sketch.data
+```
 
 # The rest
 
